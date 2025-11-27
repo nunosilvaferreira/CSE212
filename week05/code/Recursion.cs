@@ -18,20 +18,17 @@ public static class Recursion
     // --------------------
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
-        // Base case: when the word reaches the target size
+        // Base case: when word reaches desired size
         if (word.Length == size)
         {
             results.Add(word);
             return;
         }
 
-        // Try each unused letter
+        // Try every available letter
         for (int i = 0; i < letters.Length; i++)
         {
-            // Remove letter at index i
             string remaining = letters.Remove(i, 1);
-
-            // Add it to the word and recurse
             PermutationsChoose(results, remaining, size, word + letters[i]);
         }
     }
@@ -44,13 +41,11 @@ public static class Recursion
         if (remember == null)
             remember = new Dictionary<int, decimal>();
 
-        // Base cases
         if (s == 0) return 0;
         if (s == 1) return 1;
         if (s == 2) return 2;
         if (s == 3) return 4;
 
-        // Memoization lookup
         if (remember.ContainsKey(s))
             return remember[s];
 
@@ -94,14 +89,11 @@ public static class Recursion
         if (currPath == null)
             currPath = new List<ValueTuple<int, int>>();
 
-        // Invalid move → stop the recursion
         if (!maze.IsValidMove(currPath, x, y))
             return;
 
-        // Add current position to path
         currPath.Add((x, y));
 
-        // If end found, store path
         if (maze.IsEnd(x, y))
         {
             results.Add(currPath.AsString());
@@ -109,13 +101,12 @@ public static class Recursion
             return;
         }
 
-        // Try moving in 4 directions: down, up, right, left
+        // Explore all directions
         SolveMaze(results, maze, x, y + 1, currPath); // down
         SolveMaze(results, maze, x, y - 1, currPath); // up
         SolveMaze(results, maze, x + 1, y, currPath); // right
         SolveMaze(results, maze, x - 1, y, currPath); // left
 
-        // Backtrack
         currPath.RemoveAt(currPath.Count - 1);
     }
 }
