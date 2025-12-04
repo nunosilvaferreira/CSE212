@@ -11,12 +11,12 @@ public class BinarySearchTree : IEnumerable<int>
     {
         // Create new node
         Node newNode = new(value);
-        // If the list is empty, then point both head and tail to the new node.
+        // If the tree is empty, set root to new node
         if (_root is null)
         {
             _root = newNode;
         }
-        // If the list is not empty, then only head will be affected.
+        // Otherwise, insert using Node.Insert method
         else
         {
             _root.Insert(value);
@@ -68,7 +68,7 @@ public class BinarySearchTree : IEnumerable<int>
     /// <summary>
     /// Iterate backward through the BST.
     /// </summary>
-    public IEnumerable Reverse()
+    public IEnumerable<int> Reverse()
     {
         var numbers = new List<int>();
         TraverseBackward(_root, numbers);
@@ -80,7 +80,13 @@ public class BinarySearchTree : IEnumerable<int>
 
     private void TraverseBackward(Node? node, List<int> values)
     {
-        // TODO Problem 3
+        // Problem 3: Traverse Backwards
+        if (node is not null)
+        {
+            TraverseBackward(node.Right, values);
+            values.Add(node.Data);
+            TraverseBackward(node.Left, values);
+        }
     }
 
     /// <summary>
@@ -100,7 +106,7 @@ public class BinarySearchTree : IEnumerable<int>
 }
 
 public static class IntArrayExtensionMethods {
-    public static string AsString(this IEnumerable array) {
+    public static string AsString(this IEnumerable<int> array) {
         return "<IEnumerable>{" + string.Join(", ", array.Cast<int>()) + "}";
     }
 }
